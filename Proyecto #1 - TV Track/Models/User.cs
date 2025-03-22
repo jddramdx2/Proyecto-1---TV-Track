@@ -1,4 +1,9 @@
 ﻿namespace Proyecto_1_TV_Track.Models
+
+/// <summary>
+/// Representa usuario y rol 
+/// </summary>
+
 {
     public class User
     {

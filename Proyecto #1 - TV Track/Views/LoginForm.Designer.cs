@@ -3,14 +3,11 @@
     partial class LoginForm
     {
         /// <summary>
-        /// Required designer variable.
+        /// Esto es necesario para que el formulario funcione bien.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+      
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,8 +20,7 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Este método se encarga de armar el formulario
         /// </summary>
         private void InitializeComponent()
         {
@@ -65,7 +61,7 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Role:";
             // 
-            // cmbRole
+            // boton combo de rol
             // 
             this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRole.Location = new System.Drawing.Point(160, 82);
@@ -74,7 +70,7 @@
             this.cmbRole.Size = new System.Drawing.Size(199, 24);
             this.cmbRole.TabIndex = 2;
             // 
-            // btnLogin
+            // boton login
             // 
             this.btnLogin.Location = new System.Drawing.Point(67, 148);
             this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -85,7 +81,7 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // btnRegister
+            // boton registrar
             // 
             this.btnRegister.Location = new System.Drawing.Point(227, 148);
             this.btnRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -96,7 +92,7 @@
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
-            // LoginForm
+            // formulario login 
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

@@ -2,29 +2,10 @@
 {
     partial class UserRegisterForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        #region Código generado por el diseñador de formularios
 
         /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Método necesario para armar la ventana
         /// </summary>
         private void InitializeComponent()
         {
@@ -36,32 +17,33 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
 
-            // lblUsername
+            // Etiqueta para el nombre de usuario
+
             this.lblUsername.AutoSize = true;
             this.lblUsername.Location = new System.Drawing.Point(30, 30);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(58, 13);
             this.lblUsername.Text = "Username:";
 
-            // txtUsername
+            //  Campo para ingresar el nombre de usuario
             this.txtUsername.Location = new System.Drawing.Point(120, 27);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(150, 20);
 
-            // lblRole
+            // label del rol 
             this.lblRole.AutoSize = true;
             this.lblRole.Location = new System.Drawing.Point(30, 70);
             this.lblRole.Name = "lblRole";
             this.lblRole.Size = new System.Drawing.Size(65, 13);
             this.lblRole.Text = "Select Role:";
 
-            // cmbRole
+            // Combox 
             this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRole.Location = new System.Drawing.Point(120, 67);
             this.cmbRole.Name = "cmbRole";
             this.cmbRole.Size = new System.Drawing.Size(150, 21);
 
-            // btnRegister
+            // Boton para registrar
             this.btnRegister.Location = new System.Drawing.Point(30, 120);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(100, 30);
@@ -69,7 +51,7 @@
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
 
-            // btnCancel
+            //  cancelar
             this.btnCancel.Location = new System.Drawing.Point(170, 120);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 30);
@@ -77,7 +59,7 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 
-            // UserRegisterForm
+            // Configuración de la ventana
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(320, 180);

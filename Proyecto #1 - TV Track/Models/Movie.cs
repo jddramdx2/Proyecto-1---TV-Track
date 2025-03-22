@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Proyecto_1_TV_Track.Models
 {
     /// <summary>
-    /// Represents a movie in the system.
+    /// Muestra las peliculas
     /// </summary>
     public class Movie
     {

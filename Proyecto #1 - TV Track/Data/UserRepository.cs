@@ -6,28 +6,28 @@ using Proyecto_1_TV_Track.Models;
 
 namespace Proyecto_1_TV_Track.Data
 {
+    /// <summary>
+    /// Acceso al archivo de usuarios
+    /// </summary>
     public class UserRepository
     {
-        private readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lista_100_usuarios.csv"); // Ensure correct file path
-
-        /// <summary>
-        /// Retrieves all users from the CSV file (without IDs).
-        /// </summary>
+        private readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lista_100_usuarios.csv"); // ruta de csv usuarios
+        
         public List<User> GetUsers()
         {
             List<User> users = new List<User>();
 
             try
             {
-                // Ensure the file exists, or create it with a header
+                // se asegura que el archivo exista
                 if (!File.Exists(filePath))
                 {
-                    Console.WriteLine("⚠ CSV file does not exist! Creating a new one...");
+                    Console.WriteLine("No hay archivo csv");
                     File.WriteAllText(filePath, "Username,Role\n");
                     return users;
                 }
 
-                var lines = File.ReadAllLines(filePath).Skip(1); // Skip header row
+                var lines = File.ReadAllLines(filePath).Skip(1); //  Ignorar encabezados
 
                 foreach (var line in lines)
                 {
@@ -39,45 +39,45 @@ namespace Proyecto_1_TV_Track.Data
                         string role = data[1].Trim();
                         users.Add(new User(username, role));
 
-                        // Debugging: Print loaded users
-                        Console.WriteLine($"✅ Loaded User: Username={username}, Role={role}");
+                        // identificacion de usuario
+                        Console.WriteLine($"Loaded User: Username={username}, Role={role}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error reading users: {ex.Message}");
+                Console.WriteLine($"No se pudo identificar el usuario: {ex.Message}");
             }
 
             return users;
         }
 
         /// <summary>
-        /// Adds a new user to the CSV file (without ID).
+        /// Agrega nuevos usuarios a el archivo CSV
         /// </summary>
         public void AddUser(string username, string role)
         {
             try
             {
-                // Ensure the file exists with a header
+              
                 if (!File.Exists(filePath))
                 {
-                    File.WriteAllText(filePath, "Username,Role\n"); // Ensure header exists
+                    File.WriteAllText(filePath, "Username,Role\n"); 
                 }
 
                 string newUserEntry = $"{username},{role}";
 
-                // Append the new user
+                // Agrega nuevo contenido sin borrar existente
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
                     writer.WriteLine(newUserEntry);
                 }
 
-                Console.WriteLine($"✅ User {username} added successfully.");
+                Console.WriteLine($"✅ Usuario {username} agregado correctamente.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error saving user: {ex.Message}");
+                Console.WriteLine($"error salvando usuario: {ex.Message}");
             }
         }
     }
