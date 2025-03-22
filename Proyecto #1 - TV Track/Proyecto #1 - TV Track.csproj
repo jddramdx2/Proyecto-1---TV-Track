@@ -64,6 +64,12 @@
     <Compile Include="Views\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\MovieForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MovieForm.Designer.cs">
+      <DependentUpon>MovieForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserRegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </Compile>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MovieForm.resx">
+      <DependentUpon>MovieForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UserRegisterForm.resx">
       <DependentUpon>UserRegisterForm.cs</DependentUpon>

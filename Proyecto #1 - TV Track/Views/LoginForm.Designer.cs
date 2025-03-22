@@ -39,42 +39,47 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 30);
+            this.label1.Location = new System.Drawing.Point(16, 37);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(119, 16);
             this.label1.TabIndex = 5;
             this.label1.Text = "Nombre y Apellido";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(120, 27);
+            this.txtUsername.Location = new System.Drawing.Point(160, 33);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(150, 20);
+            this.txtUsername.Size = new System.Drawing.Size(199, 22);
             this.txtUsername.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 70);
+            this.label2.Location = new System.Drawing.Point(67, 86);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.Size = new System.Drawing.Size(39, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "Role:";
             // 
             // cmbRole
             // 
             this.cmbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbRole.Location = new System.Drawing.Point(120, 67);
+            this.cmbRole.Location = new System.Drawing.Point(160, 82);
+            this.cmbRole.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbRole.Name = "cmbRole";
-            this.cmbRole.Size = new System.Drawing.Size(150, 21);
+            this.cmbRole.Size = new System.Drawing.Size(199, 24);
             this.cmbRole.TabIndex = 2;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(50, 120);
+            this.btnLogin.Location = new System.Drawing.Point(67, 148);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(100, 30);
+            this.btnLogin.Size = new System.Drawing.Size(133, 37);
             this.btnLogin.TabIndex = 1;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -82,9 +87,10 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(170, 120);
+            this.btnRegister.Location = new System.Drawing.Point(227, 148);
+            this.btnRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(100, 30);
+            this.btnRegister.Size = new System.Drawing.Size(133, 37);
             this.btnRegister.TabIndex = 0;
             this.btnRegister.Text = "Register";
             this.btnRegister.UseVisualStyleBackColor = true;
@@ -92,17 +98,19 @@
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 180);
+            this.ClientSize = new System.Drawing.Size(427, 222);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.cmbRole);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "LoginForm";
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using Proyecto__1___TV_Track.Views;
 using Proyecto_1_TV_Track.Data;
 using Proyecto_1_TV_Track.Models;
 
@@ -53,14 +54,13 @@ namespace Proyecto_1_TV_Track.Views
                     string.Equals(u.Name, username, StringComparison.OrdinalIgnoreCase) &&
                     string.Equals(u.Role, role, StringComparison.OrdinalIgnoreCase));
 
-                if (user != null)
+                if (user != null)  // ✅ Use user instance, not User class
                 {
                     MessageBox.Show($"Welcome, {user.Name}!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide(); // Hide login form
 
-                    // TODO: Open the main application form if applicable
-                    // MainForm mainForm = new MainForm();
-                    // mainForm.Show();
+                    MovieForm movieForm = new MovieForm();
+                    movieForm.ShowDialog();
                 }
                 else
                 {
@@ -95,6 +95,10 @@ namespace Proyecto_1_TV_Track.Views
         private void label1_Click(object sender, EventArgs e)
         {
             // No logic needed, just prevents missing method error
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
         }
     }
 }
