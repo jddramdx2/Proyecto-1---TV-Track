@@ -22,9 +22,9 @@ namespace Proyecto_1_TV_Track.Views
             btnRegister.Click += btnRegister_Click;
         }
 
-   
+        /// <summary>
         /// Agrega los roles disponibles al combo box.
-    
+        /// </summary>
         private void LoadRoles()
         {
             cmbRole.Items.Clear();
@@ -33,9 +33,9 @@ namespace Proyecto_1_TV_Track.Views
             cmbRole.SelectedIndex = 0; // Para que siempre tenga un valor y no quede vacío
         }
 
-     
+        /// <summary>
         /// Verifica si el usuario existe y permite el inicio de sesión.
-       
+        /// </summary>
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
@@ -54,17 +54,42 @@ namespace Proyecto_1_TV_Track.Views
                     string.Equals(u.Name, username, StringComparison.OrdinalIgnoreCase) &&
                     string.Equals(u.Role, role, StringComparison.OrdinalIgnoreCase));
 
-                if (user != null)  // verifica el usuario en la lista y confirma
+                if (user != null) // Verifica el usuario en la lista y confirma
                 {
                     MessageBox.Show($"Bienvenido, {user.Name}!", "INGRESO EXITOSO :)", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide(); 
+                    this.Hide(); // Oculta la ventana de login
+                    if (user.Role == "Admin")
+                    {
+                        // 📌 Open AdminChoiceForm so the Admin can choose
+                        AdminChoiceForm choiceForm = new AdminChoiceForm();
 
-                    MovieForm movieForm = new MovieForm();
-                    movieForm.ShowDialog();
+                        if (choiceForm.ShowDialog() == DialogResult.OK)
+                        {
+                            if (choiceForm.SelectedOption == AdminChoiceForm.AdminOption.MovieCatalog)
+                            {
+                                MovieForm movieForm = new MovieForm();
+                                movieForm.ShowDialog();
+                            }
+                            else if (choiceForm.SelectedOption == AdminChoiceForm.AdminOption.Reports)
+                            {
+                                AdminReportForm adminForm = new AdminReportForm();
+                                adminForm.ShowDialog();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // 📌 Si el usuario es normal, solo abre la lista de películas
+                        MovieForm movieForm = new MovieForm();
+                        movieForm.ShowDialog();
+                    }
+
+                    // 📌 Una vez que el usuario cierra su ventana, mostramos el login otra vez
+                    this.Show();
                 }
                 else
                 {
-                    MessageBox.Show("oh oh, existes?", "Error de ingreso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Oh oh, ¿existes?", "Error de ingreso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
