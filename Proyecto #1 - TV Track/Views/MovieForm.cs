@@ -31,7 +31,15 @@ namespace Proyecto__1___TV_Track.Views
         private void LoadMovies()
         {
             movies = movieRepo.GetMovies();
-            dgvMovies.DataSource = movies.Select(m => new { m.Title, m.Genre, m.Platform }).ToList();
+            dgvMovies.DataSource = movies.Select(m => new
+            {
+                m.Title,
+                m.Genre,
+                m.Platform,
+                m.Rating,
+                m.ViewStatus,
+                Recomendado = m.IsRecommended ? "Sí" : "No" // 📌 Nueva columna de recomendaciones
+            }).ToList();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -48,7 +56,15 @@ namespace Proyecto__1___TV_Track.Views
                     .Where(m => m.Title.ToLower().Contains(searchQuery) ||
                                 m.Genre.ToLower().Contains(searchQuery) ||
                                 m.Platform.ToLower().Contains(searchQuery))
-                    .Select(m => new { m.Title, m.Genre, m.Platform })
+                    .Select(m => new
+                    {
+                        m.Title,
+                        m.Genre,
+                        m.Platform,
+                        m.Rating,
+                        m.ViewStatus,
+                        Recomendado = m.IsRecommended ? "Sí" : "No"
+                    })
                     .ToList();
 
                 dgvMovies.DataSource = filteredMovies;
@@ -64,7 +80,6 @@ namespace Proyecto__1___TV_Track.Views
             this.Hide();
             LoginForm loginForm = new LoginForm();
             loginForm.ShowDialog();
-
             // Close the application after login form is handled
             Application.Exit();
         }
@@ -72,6 +87,121 @@ namespace Proyecto__1___TV_Track.Views
         private void Exit()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Permite calificar una película seleccionada
+        /// </summary>
+        private void btnRate_Click(object sender, EventArgs e)
+        {
+            if (dgvMovies.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una película para calificar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cmbRating.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione una calificación antes de continuar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string selectedMovie = dgvMovies.SelectedRows[0].Cells[0].Value.ToString(); // Título de la peli
+            int rating = int.Parse(cmbRating.SelectedItem.ToString()); // Calificación
+
+            movieRepo.RateMovie(selectedMovie, rating); // Guarda la calificación en el CSV
+
+            MessageBox.Show($"Has calificado '{selectedMovie}' con {rating} estrellas.", "Calificación guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LoadMovies(); // Recargar la lista con la nueva calificación
+        }
+
+        /// <summary>
+        /// Permite al usuario marcar una película como "Visto" o "Parcialmente Visto".
+        /// </summary>
+        private void btnMarkViewStatus_Click(object sender, EventArgs e)
+        {
+            if (dgvMovies.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione una película para marcar su estado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string selectedMovie = dgvMovies.SelectedRows[0].Cells[0].Value.ToString(); // Obtiene el título de la película
+
+            // 📌 Muestra opciones para el usuario
+            DialogResult result = MessageBox.Show(
+                "¿Cómo desea marcar esta película?\n\nSí → Visto\nNo → Parcialmente Visto",
+                "Marcar estado de película",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
+
+            string viewStatus = "No Visto"; // Por defecto
+
+            if (result == DialogResult.Yes)
+            {
+                viewStatus = "Visto";
+            }
+            else if (result == DialogResult.No)
+            {
+                viewStatus = "Parcialmente Visto";
+            }
+
+            // 📌 Si el usuario no cancela, actualiza el estado en el CSV
+            if (result != DialogResult.Cancel)
+            {
+                movieRepo.UpdateMovieViewStatus(selectedMovie, viewStatus);
+                LoadMovies(); // 📌 Recargar lista para reflejar cambios
+                MessageBox.Show($"Se ha marcado '{selectedMovie}' como '{viewStatus}'.", "Estado actualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        /// <summary>
+        /// Permite filtrar películas por estado de vista.
+        /// </summary>
+        private void btnFilterViewStatus_Click(object sender, EventArgs e)
+        {
+            if (cmbViewStatus.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione un estado de vista para filtrar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string selectedStatus = cmbViewStatus.SelectedItem.ToString();
+
+            var filteredMovies = movies
+                .Where(m => m.ViewStatus == selectedStatus)
+                .Select(m => new
+                {
+                    m.Title,
+                    m.Genre,
+                    m.Platform,
+                    m.Rating,
+                    m.ViewStatus,
+                    Recomendado = m.IsRecommended ? "Sí" : "No"
+                })
+                .ToList();
+
+            dgvMovies.DataSource = filteredMovies;
+        }
+
+        /// <summary>
+        /// Permite filtrar solo las películas recomendadas.
+        /// </summary>
+        private void btnFilterRecommended_Click(object sender, EventArgs e)
+        {
+            var recommendedMovies = movies
+                .Where(m => m.IsRecommended)
+                .Select(m => new
+                {
+                    m.Title,
+                    m.Genre,
+                    m.Platform,
+                    m.Rating,
+                    m.ViewStatus,
+                    Recomendado = "Sí"
+                })
+                .ToList();
+
+            dgvMovies.DataSource = recommendedMovies;
         }
     }
 }

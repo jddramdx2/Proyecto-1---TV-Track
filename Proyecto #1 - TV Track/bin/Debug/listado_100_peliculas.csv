@@ -1,7 +1,7 @@
 Peliculas ,Genero,Plataforma de streaming
-A C N E,Romantica,Hulu
-A Little trip to heaven,Terror,Hulu
-Acorralados,Drama,Netflix
+A C N E,Romantica,Hulu,2.0,Visto,False
+A Little trip to heaven,Terror,Hulu,4.0,Visto,True
+Acorralados,Drama,Netflix,4.0,Visto,True
 Adam,Romantica,Paramount+
 Admitido,Comedia,Disney+
 Adoptado,Comedia,Apple TV+
