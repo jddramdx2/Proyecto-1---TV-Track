@@ -12,7 +12,7 @@ namespace Proyecto__1___TV_Track.Views
 {
     public partial class AdminChoiceForm : Form
     {
-        // Enum to represent admin's selection
+        // muestra las opciones a las cuales el administrador puede accesar
         public enum AdminOption
         {
             None,
@@ -39,6 +39,11 @@ namespace Proyecto__1___TV_Track.Views
             SelectedOption = AdminOption.Reports;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void AdminChoiceForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

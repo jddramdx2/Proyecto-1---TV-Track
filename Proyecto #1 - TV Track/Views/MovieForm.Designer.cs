@@ -38,7 +38,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMovies)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvMovies
+            // Peliculas
             // 
             this.dgvMovies.ColumnHeadersHeight = 29;
             this.dgvMovies.Location = new System.Drawing.Point(12, 50);
@@ -48,14 +48,14 @@
             this.dgvMovies.Size = new System.Drawing.Size(951, 300);
             this.dgvMovies.TabIndex = 0;
             // 
-            // txtSearch
+            // caja de busqueda
             // 
             this.txtSearch.Location = new System.Drawing.Point(12, 12);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(200, 22);
             this.txtSearch.TabIndex = 1;
             // 
-            // btnSearch
+            // boton de busqueda
             // 
             this.btnSearch.Location = new System.Drawing.Point(220, 10);
             this.btnSearch.Name = "btnSearch";
@@ -64,7 +64,7 @@
             this.btnSearch.Text = "Buscar";
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // btnLogout
+            // boton de cierre de sesion
             // 
             this.btnLogout.Location = new System.Drawing.Point(500, 400);
             this.btnLogout.Name = "btnLogout";
@@ -73,7 +73,7 @@
             this.btnLogout.Text = "Cerrar Sesión";
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // lblRating
+            // opciones de calificacion
             // 
             this.lblRating.AutoSize = true;
             this.lblRating.Location = new System.Drawing.Point(12, 365);
@@ -82,7 +82,7 @@
             this.lblRating.TabIndex = 4;
             this.lblRating.Text = "Calificación:";
             // 
-            // cmbRating
+            // grados de calificacion
             // 
             this.cmbRating.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRating.Items.AddRange(new object[] {
@@ -96,7 +96,7 @@
             this.cmbRating.Size = new System.Drawing.Size(80, 24);
             this.cmbRating.TabIndex = 5;
             // 
-            // btnRate
+            // boton para realizar la calificacion
             // 
             this.btnRate.Location = new System.Drawing.Point(180, 360);
             this.btnRate.Name = "btnRate";
@@ -106,7 +106,7 @@
             this.btnRate.UseVisualStyleBackColor = true;
             this.btnRate.Click += new System.EventHandler(this.btnRate_Click);
             // 
-            // lblViewStatus
+            // estado de visualizacion
             // 
             this.lblViewStatus.AutoSize = true;
             this.lblViewStatus.Location = new System.Drawing.Point(12, 395);
@@ -115,7 +115,7 @@
             this.lblViewStatus.TabIndex = 6;
             this.lblViewStatus.Text = "Estado de Vista:";
             // 
-            // cmbViewStatus
+            // opociones de visualizacion
             // 
             this.cmbViewStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbViewStatus.Items.AddRange(new object[] {
@@ -127,7 +127,7 @@
             this.cmbViewStatus.Size = new System.Drawing.Size(120, 24);
             this.cmbViewStatus.TabIndex = 7;
             // 
-            // btnMarkViewStatus
+            // Boton para registro de visualización
             // 
             this.btnMarkViewStatus.Location = new System.Drawing.Point(250, 390);
             this.btnMarkViewStatus.Name = "btnMarkViewStatus";
@@ -137,7 +137,7 @@
             this.btnMarkViewStatus.UseVisualStyleBackColor = true;
             this.btnMarkViewStatus.Click += new System.EventHandler(this.btnMarkViewStatus_Click);
             // 
-            // MovieForm
+            // acceso al formulario de peliculas
             // 
             this.ClientSize = new System.Drawing.Size(975, 450);
             this.Controls.Add(this.dgvMovies);

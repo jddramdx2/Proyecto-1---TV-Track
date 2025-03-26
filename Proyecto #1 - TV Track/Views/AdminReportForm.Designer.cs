@@ -12,7 +12,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvReports)).BeginInit();
             this.SuspendLayout();
             // 
-            // dgvReports
+            // Reportes
             // 
             this.dgvReports.ColumnHeadersHeight = 29;
             this.dgvReports.Location = new System.Drawing.Point(12, 12);
@@ -22,7 +22,7 @@
             this.dgvReports.Size = new System.Drawing.Size(859, 300);
             this.dgvReports.TabIndex = 0;
             // 
-            // btnBack
+            // Boton de regresar
             // 
             this.btnBack.Location = new System.Drawing.Point(388, 333);
             this.btnBack.Name = "btnBack";
@@ -31,7 +31,7 @@
             this.btnBack.Text = "Back";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // AdminReportForm
+            // Formulario de Reportes del Administrador
             // 
             this.ClientSize = new System.Drawing.Size(883, 400);
             this.Controls.Add(this.dgvReports);

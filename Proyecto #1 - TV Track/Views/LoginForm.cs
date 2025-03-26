@@ -9,15 +9,15 @@ namespace Proyecto_1_TV_Track.Views
 {
     public partial class LoginForm : Form
     {
-        private UserRepository userRepo; // Maneja los usuarios del archivo CSV
+        private UserRepository userRepo; // Cargo la lista de los usuarios del archivo CSV
 
         public LoginForm()
         {
             InitializeComponent();
             userRepo = new UserRepository();
-            LoadRoles(); // Carga los roles disponibles
+            LoadRoles(); // Carga roles disponibles
 
-            // Conecta los botones con sus respectivas funciones
+            // Hace coneccion de los botones a sus respectivas funciones
             btnLogin.Click += btnLogin_Click;
             btnRegister.Click += btnRegister_Click;
         }
@@ -30,11 +30,11 @@ namespace Proyecto_1_TV_Track.Views
             cmbRole.Items.Clear();
             cmbRole.Items.Add("Admin");
             cmbRole.Items.Add("User");
-            cmbRole.SelectedIndex = 0; // Para que siempre tenga un valor y no quede vacío
+            cmbRole.SelectedIndex = 0;// Esto es con el fin de que tenga valor y no este vació
         }
 
         /// <summary>
-        /// Verifica si el usuario existe y permite el inicio de sesión.
+        /// Verifica la existencia del usuario y deja que este inicié de sesión.
         /// </summary>
         private void btnLogin_Click(object sender, EventArgs e)
         {
@@ -49,18 +49,22 @@ namespace Proyecto_1_TV_Track.Views
 
             try
             {
-                var users = userRepo.GetUsers(); // Busca usuarios en el CSV
-                var user = users.FirstOrDefault(u =>
-                    string.Equals(u.Name, username, StringComparison.OrdinalIgnoreCase) &&
-                    string.Equals(u.Role, role, StringComparison.OrdinalIgnoreCase));
+                var users = userRepo.GetUsers(); // realiza una busqueda de usuarios en el CSV
 
-                if (user != null) // Verifica el usuario en la lista y confirma
+                // Mostrar temporalmente todos los usuarios cargados (puedes eliminar esto después de probar)
+                // MessageBox.Show(string.Join("\n", users.Select(u => $"Nombre: '{u.Name}' - Rol: '{u.Role}'")), "DEBUG CSV");
+
+                var user = users.FirstOrDefault(u =>
+                    string.Equals(u.Name.Trim(), username.Trim(), StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(u.Role.Trim(), role.Trim(), StringComparison.OrdinalIgnoreCase));
+
+                if (user != null) // Verifica que el usuario se encuetre la lista y confirma
                 {
                     MessageBox.Show($"Bienvenido, {user.Name}!", "INGRESO EXITOSO :)", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide(); // Oculta la ventana de login
-                    if (user.Role == "Admin")
+                    this.Hide(); // se esconde la ventana de login
+                    if (user.Role.Trim() == "Admin")
                     {
-                        // 📌 Open AdminChoiceForm so the Admin can choose
+                        // Se abre erl formulario de opciones del administrador
                         AdminChoiceForm choiceForm = new AdminChoiceForm();
 
                         if (choiceForm.ShowDialog() == DialogResult.OK)
@@ -79,12 +83,12 @@ namespace Proyecto_1_TV_Track.Views
                     }
                     else
                     {
-                        // 📌 Si el usuario es normal, solo abre la lista de películas
+                        // Si el usuario no es administrador, solo se abrira el catalogo de películas
                         MovieForm movieForm = new MovieForm();
                         movieForm.ShowDialog();
                     }
 
-                    // 📌 Una vez que el usuario cierra su ventana, mostramos el login otra vez
+                    // Una vez que el usuario cierre su sesion, se mostrara el login de nuevo
                     this.Show();
                 }
                 else
@@ -99,13 +103,13 @@ namespace Proyecto_1_TV_Track.Views
         }
 
         /// <summary>
-        /// Abre la ventana para registrar un nuevo usuario.
+        /// Se abrira una ventana para hacer el registro de un nuevo usuario
         /// </summary>
         private void btnRegister_Click(object sender, EventArgs e)
         {
             try
             {
-                UserRegisterForm registerForm = new UserRegisterForm(); // Se abre la pantalla de registro
+                UserRegisterForm registerForm = new UserRegisterForm(); // Abre pantalla de registro
                 registerForm.ShowDialog();
             }
             catch (Exception ex)
@@ -119,7 +123,7 @@ namespace Proyecto_1_TV_Track.Views
         /// </summary>
         private void label1_Click(object sender, EventArgs e)
         {
-            // Solo está aquí para evitar errores del sistema
+            // Se colocó para evitar errores en el sistema
         }
 
         private void LoginForm_Load(object sender, EventArgs e)

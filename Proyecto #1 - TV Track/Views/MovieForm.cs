@@ -38,7 +38,7 @@ namespace Proyecto__1___TV_Track.Views
                 m.Platform,
                 m.Rating,
                 m.ViewStatus,
-                Recomendado = m.IsRecommended ? "Sí" : "No" // 📌 Nueva columna de recomendaciones
+                Recomendado = m.IsRecommended ? "Sí" : "No" // columna de recomendaciones
             }).ToList();
         }
 
@@ -72,7 +72,7 @@ namespace Proyecto__1___TV_Track.Views
         }
 
         /// <summary>
-        /// Handles logout button click - returns to LoginForm and closes the session.
+        /// Cuando se hace clic en el botón para salir, se vuelve a la pantalla de inicio de sesión y se cierra la sesión..
         /// </summary>
         private void btnLogout_Click(object sender, EventArgs e)
         {
@@ -90,7 +90,7 @@ namespace Proyecto__1___TV_Track.Views
         }
 
         /// <summary>
-        /// Permite calificar una película seleccionada
+        /// Se puede darle una calificación a la película que uno escoja.
         /// </summary>
         private void btnRate_Click(object sender, EventArgs e)
         {
@@ -115,7 +115,7 @@ namespace Proyecto__1___TV_Track.Views
         }
 
         /// <summary>
-        /// Permite al usuario marcar una película como "Visto" o "Parcialmente Visto".
+        /// Permite cambiar el estado de visualización de la pelicula.
         /// </summary>
         private void btnMarkViewStatus_Click(object sender, EventArgs e)
         {
@@ -127,7 +127,7 @@ namespace Proyecto__1___TV_Track.Views
 
             string selectedMovie = dgvMovies.SelectedRows[0].Cells[0].Value.ToString(); // Obtiene el título de la película
 
-            // 📌 Muestra opciones para el usuario
+            // Muestra opciones para el usuario
             DialogResult result = MessageBox.Show(
                 "¿Cómo desea marcar esta película?\n\nSí → Visto\nNo → Parcialmente Visto",
                 "Marcar estado de película",
@@ -155,7 +155,7 @@ namespace Proyecto__1___TV_Track.Views
         }
 
         /// <summary>
-        /// Permite filtrar películas por estado de vista.
+        /// Permite filtrar películas por estado de visualización.
         /// </summary>
         private void btnFilterViewStatus_Click(object sender, EventArgs e)
         {
@@ -184,7 +184,7 @@ namespace Proyecto__1___TV_Track.Views
         }
 
         /// <summary>
-        /// Permite filtrar solo las películas recomendadas.
+        /// Filtra solo las películas recomendadas.
         /// </summary>
         private void btnFilterRecommended_Click(object sender, EventArgs e)
         {

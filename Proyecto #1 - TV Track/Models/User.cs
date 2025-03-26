@@ -1,7 +1,7 @@
 ﻿namespace Proyecto_1_TV_Track.Models
 
 /// <summary>
-/// Representa usuario y rol 
+/// Muestra el usuario y su respectivo rol
 /// </summary>
 
 {

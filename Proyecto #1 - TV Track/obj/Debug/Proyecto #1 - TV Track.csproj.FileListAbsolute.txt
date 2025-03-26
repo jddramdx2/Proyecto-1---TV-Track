@@ -15,7 +15,6 @@ C:\Users\Test1\Documents\UNIVERSIDAD 2025 TECNICAS DE PROGRAMACION\PROYECTO 1\Pr
 C:\Users\Test1\Documents\UNIVERSIDAD 2025 TECNICAS DE PROGRAMACION\PROYECTO 1\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track-master\Proyecto #1 - TV Track\obj\Debug\Proyecto #1 - TV Track.pdb
 C:\Users\Test1\Documents\UNIVERSIDAD 2025 TECNICAS DE PROGRAMACION\PROYECTO 1\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track-master\Proyecto #1 - TV Track\obj\Debug\Proyecto__1___TV_Track.Views.AdminChoiceForm.resources
 G:\Proyecto-1-TV-Track\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track\Proyecto #1 - TV Track\bin\Debug\listado_100_peliculas.csv
-G:\Proyecto-1-TV-Track\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track\Proyecto #1 - TV Track\bin\Debug\Lista_100_usuarios.csv
 G:\Proyecto-1-TV-Track\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track\Proyecto #1 - TV Track\bin\Debug\Proyecto #1 - TV Track.exe.config
 G:\Proyecto-1-TV-Track\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track\Proyecto #1 - TV Track\bin\Debug\Proyecto #1 - TV Track.exe
 G:\Proyecto-1-TV-Track\Proyecto-1---TV-Track-master\Proyecto-1---TV-Track\Proyecto #1 - TV Track\bin\Debug\Proyecto #1 - TV Track.pdb

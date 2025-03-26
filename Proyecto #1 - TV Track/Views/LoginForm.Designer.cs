@@ -3,7 +3,7 @@
     partial class LoginForm
     {
         /// <summary>
-        /// Esto es necesario para que el formulario funcione bien.
+        /// Funciones de los botones y otras opciones del loginform.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
