@@ -1,0 +1,35 @@
+﻿@page "/Error"
+@using System.Diagnostics
+
+<PageTitle>Error</PageTitle>
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">Ocurrió un error mientras se procesaba tu solicitud.</h2>
+
+@if (ShowRequestId)
+{
+    <p>
+        <strong>ID de solicitud:</strong> <code>@RequestId</code>
+    </p>
+}
+
+<h3>Modo de desarrollo</h3>
+<p>
+    Cambiar al entorno <strong>Development</strong> mostrará más detalles sobre el error.
+</p>
+<p>
+    <strong>No se debe usar Development en producción.</strong>
+    Puede mostrar información sensible al usuario.
+    Para usarlo localmente, cambia la variable <strong>ASPNETCORE_ENVIRONMENT</strong> a <strong>Development</strong> y reinicia la app.
+</p>
+
+@code {
+    private string? RequestId { get; set; }
+    private bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+    protected override void OnInitialized()
+    {
+        // No se puede usar HttpContext aquí, así que solo asignamos el ID de actividad si existe
+        RequestId = Activity.Current?.Id ?? "N/A";
+    }
+}

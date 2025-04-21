@@ -1,0 +1,89 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using TVTrackWeb.Services
+@using TVTrackWeb.Models
+@inject Neo4jService Neo4j
+@inject SesionService Sesion
+@inject NavigationManager Navigation
+
+
+<PageTitle>Login</PageTitle>
+
+<h3>Iniciar Sesión</h3>
+
+<EditForm Model="login" OnValidSubmit="IniciarSesion" FormName="loginForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="login-form p-4 border rounded bg-light" style="max-width: 400px;">
+        <div class="mb-3">
+            <label class="form-label">Nombre:</label>
+            <InputText @bind-Value="login.Nombre" class="form-control" />
+            <ValidationMessage For="@(() => login.Nombre)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rol:</label>
+            <InputSelect @bind-Value="login.Rol" class="form-control">
+                <option value="">--Seleccione--</option>
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+            </InputSelect>
+            <ValidationMessage For="@(() => login.Rol)" />
+        </div>
+
+        @if (!string.IsNullOrEmpty(mensaje))
+        {
+            <div class="alert alert-danger">@mensaje</div>
+        }
+
+        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </div>
+</EditForm>
+
+@code {
+    private LoginModel login = new();
+    private string mensaje = "";
+
+    private async Task IniciarSesion()
+    {
+        Console.WriteLine($"🔍 Iniciando sesión: {login.Nombre} - {login.Rol}");
+
+        if (string.IsNullOrWhiteSpace(login.Nombre) || string.IsNullOrWhiteSpace(login.Rol))
+        {
+            mensaje = "Debe ingresar nombre y rol.";
+            return;
+        }
+
+        try
+        {
+            var valido = await Neo4j.ValidarCredenciales(login.Nombre, login.Rol);
+            Console.WriteLine($"Resultado de validación: {valido}");
+
+            if (valido)
+            {
+                Sesion.IniciarSesion(login.Nombre, login.Rol);
+                mensaje = ""; // limpia mensaje si entra
+                Navigation.NavigateTo("/usuarios", forceLoad: true);
+            }
+            else
+            {
+                mensaje = "Usuario no válido. Verifique nombre y rol.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error: {ex.Message}";
+            Console.WriteLine($"💥 Error de autenticación: {ex.Message}");
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "El nombre es requerido")]
+        public string Nombre { get; set; } = "";
+
+        [Required(ErrorMessage = "El rol es requerido")]
+        public string Rol { get; set; } = "";
+    }
+}

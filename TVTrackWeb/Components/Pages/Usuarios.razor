@@ -1,0 +1,64 @@
+﻿@page "/usuarios"
+@using TVTrackWeb.Models
+@using TVTrackWeb.Services
+@inject Neo4jService Neo4j
+@inject SesionService Sesion
+@inject NavigationManager Navigation
+
+<h3>Usuarios</h3>
+
+@if (!Sesion.EstaLogueado)
+{
+    <p style="color:red">Debe iniciar sesión para ver esta página.</p>
+}
+else
+{
+    <div>
+        <input @bind="nombre" placeholder="Nombre" />
+        <input @bind="rol" placeholder="Rol" />
+        <button @onclick="GuardarUsuario">Guardar</button>
+    </div>
+
+    <hr />
+
+    @if (lista.Count == 0)
+    {
+        <p>No hay usuarios registrados todavía.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var u in lista)
+            {
+                <li>@u.Name - @u.Role</li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    string nombre = "";
+    string rol = "";
+    List<User> lista = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Sesion.EstaLogueado)
+        {
+            Navigation.NavigateTo("/");
+            return;
+        }
+
+        lista = await Neo4j.ObtenerUsuarios();
+    }
+
+    async Task GuardarUsuario()
+    {
+        if (!string.IsNullOrWhiteSpace(nombre) && !string.IsNullOrWhiteSpace(rol))
+        {
+            await Neo4j.AgregarUsuario(nombre, rol);
+            lista = await Neo4j.ObtenerUsuarios();
+            nombre = rol = "";
+        }
+    }
+}
