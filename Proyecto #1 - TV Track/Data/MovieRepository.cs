@@ -13,7 +13,7 @@ namespace Proyecto_1_TV_Track.Data
     {
         private readonly string filePath = "listado_100_peliculas.csv"; // Ruta del CSV
 
-        
+
         public List<Movie> GetMovies()
         {
             List<Movie> movies = new List<Movie>();
@@ -158,6 +158,6 @@ namespace Proyecto_1_TV_Track.Data
         private bool CalculateRecommendation(double rating, string viewStatus)
         {
             return rating >= 4.0 && viewStatus != "No Vista"; // 📌 Se recomienda si tiene una calificacion de 4 o mas y esta en estado visto".
-        }
+        }
     }
 }

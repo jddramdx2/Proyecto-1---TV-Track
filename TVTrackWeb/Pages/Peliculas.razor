@@ -1,0 +1,57 @@
+﻿@using Proyecto_1_TV_Track.Models
+@using TVTrackWeb.Services
+@inject Neo4jService NeoService
+
+<h3>Películas</h3>
+
+@if (peliculas == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Plataforma</th>
+                <th>Calificar</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var movie in peliculas)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Genre</td>
+                <td>@movie.Platform</td>
+                <td>
+                    <select @onchange="e => Calificar(movie.Title, Convert.ToDouble(e.Value))">
+                        <option disabled selected>⭐</option>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Movie> peliculas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        peliculas = await NeoService.ObtenerPeliculas();
+    }
+
+    private async Task Calificar(string titulo, double rating)
+    {
+        await NeoService.CalificarPelicula(titulo, rating, "Vista");
+        await OnInitializedAsync(); // refrescar
+    }
+}

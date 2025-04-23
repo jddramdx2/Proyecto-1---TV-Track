@@ -19,13 +19,13 @@ namespace Proyecto_1_TV_Track.Data
     {
 
         private readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Lista_100_usuarios.csv"); // ruta de csv usuarios
- 
+
         public List<User> GetUsers()
 
         {
 
             List<User> users = new List<User>();
- 
+
             try
 
             {
@@ -43,17 +43,17 @@ namespace Proyecto_1_TV_Track.Data
                     return users;
 
                 }
- 
+
                 var lines = File.ReadAllLines(filePath).Skip(1); //  Ignora encabezados
- 
+
                 foreach (var line in lines)
 
                 {
 
                     if (string.IsNullOrWhiteSpace(line)) continue;
- 
+
                     var data = line.Split(',');
- 
+
                     if (data.Length >= 2)
 
                     {
@@ -63,7 +63,7 @@ namespace Proyecto_1_TV_Track.Data
                         string role = data[1].Trim();
 
                         users.Add(new User(username, role));
- 
+
                         // identificacion de usuario
 
                         Console.WriteLine($"Loaded User: Username={username}, Role={role}");
@@ -81,11 +81,11 @@ namespace Proyecto_1_TV_Track.Data
                 Console.WriteLine($"No se pudo identificar el usuario: {ex.Message}");
 
             }
- 
+
             return users;
 
         }
- 
+
         /// <summary>
 
         /// Registro de nuevos usuarios en el archivo CSV
@@ -107,13 +107,13 @@ namespace Proyecto_1_TV_Track.Data
                     File.WriteAllText(filePath, "Username,Role\n");
 
                 }
- 
+
                 // Revisa si ya existe el usuario antes de agregarlo
 
                 var existingUsers = GetUsers();
 
                 bool userExists = existingUsers.Any(u => u.Name.Equals(username, StringComparison.OrdinalIgnoreCase));
- 
+
                 if (userExists)
 
                 {
@@ -123,9 +123,9 @@ namespace Proyecto_1_TV_Track.Data
                     return;
 
                 }
- 
+
                 string newUserEntry = $"{username},{role}";
- 
+
                 // Agrega nuevo contenido sin eliminar el que ya existe
 
                 using (StreamWriter writer = new StreamWriter(filePath, true))
@@ -135,7 +135,7 @@ namespace Proyecto_1_TV_Track.Data
                     writer.WriteLine(newUserEntry);
 
                 }
- 
+
                 Console.WriteLine($"✅ Usuario {username} agregado correctamente.");
 
             }
@@ -153,5 +153,3 @@ namespace Proyecto_1_TV_Track.Data
     }
 
 }
-
- 

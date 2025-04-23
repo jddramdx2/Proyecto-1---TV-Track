@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // ⬇️ Registrar servicios de sesión y Neo4j
 builder.Services.AddSingleton<SesionService>();
 builder.Services.AddSingleton<Neo4jService>();
+var neo = new Neo4jService();
+await neo.ImportarPeliculasDesdeCSV("listado_100_peliculas.csv");
 
 // ⬇️ Agregar componentes interactivos de Blazor Server
 builder.Services.AddRazorComponents()

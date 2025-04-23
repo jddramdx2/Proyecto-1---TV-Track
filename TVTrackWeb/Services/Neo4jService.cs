@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Neo4j.Driver;
+using Proyecto_1_TV_Track.Models;
 using TVTrackWeb.Models;
+using TVTrackWeb.Pages;
 
 namespace TVTrackWeb.Services
 {
@@ -11,9 +14,10 @@ namespace TVTrackWeb.Services
         private readonly IDriver _driver;
 
         public Neo4jService()
+
         {
             // conexión con Neo4j - usuario y clave por defecto
-            _driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "1234"));
+            _driver = GraphDatabase.Driver("bolt://localhost:5260", AuthTokens.Basic("neo4j", "1234"));
         }
 
         // este método mete un usuario nuevo a la base
@@ -91,5 +95,85 @@ namespace TVTrackWeb.Services
                 await session.CloseAsync();
             }
         }
+        public async Task ImportarPeliculasDesdeCSV(string rutaCsv)
+        {
+            var session = _driver.AsyncSession();
+
+            try
+            {
+                var lines = File.ReadAllLines(rutaCsv);
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    var data = lines[i].Split(',');
+                    if (data.Length < 3) continue;
+
+                    string title = data[0].Trim();
+                    string genre = data[1].Trim();
+                    string platform = data[2].Trim();
+
+                    var query = @"MERGE (m:Peliculas {title: $title}) 
+                          SET m.genre = $genre, m.platform = $platform";
+                    await session.RunAsync(query, new { title, genre, platform });
+                }
+
+                Console.WriteLine("✅ Películas importadas desde CSV.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error: {ex.Message}");
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+
+        public async Task<List<Movie>> ObtenerPeliculas()
+        {
+            var lista = new List<Movie>();
+            var session = _driver.AsyncSession();
+            try
+            {
+                var result = await session.RunAsync("MATCH (m:Peliculas) RETURN m.Peliculas AS title , m.Genero AS genre, m.Plataforma AS platform");
+
+                await result.ForEachAsync(record =>
+                {
+                    lista.Add(new Movie(
+                        record["title"].As<string>(),
+                        record["genre"].As<string>(),
+                        record["platform"].As<string>()
+                        //Peliculas, Genero, Plataforma///
+                    ));
+                });
+
+                return lista;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task CalificarPelicula(string titulo, double rating, string viewStatus)
+        {
+            var session = _driver.AsyncSession();
+            try
+            {
+                var recomendado = (rating >= 4.0 && viewStatus != "No Vista");
+
+                var query = @"MATCH (m:Movie {title: $titulo})
+                      SET m.rating = $rating,
+                          m.viewStatus = $viewStatus,
+                          m.isRecommended = $recomendado";
+                await session.RunAsync(query, new { titulo, rating, viewStatus, recomendado });
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+
+
+
+
     }
 }
