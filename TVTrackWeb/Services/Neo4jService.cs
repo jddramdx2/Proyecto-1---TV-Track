@@ -26,7 +26,7 @@ namespace TVTrackWeb.Services
             var session = _driver.AsyncSession();
             try
             {
-                var query = "CREATE (u:User {name: $name, role: $role})";
+                var query = "CREATE (u:User {name: $name, role: $role, fechaCreacion: datetime()})";
                 var parameters = new { name, role };
                 await session.RunAsync(query, parameters);
                 Console.WriteLine($"✅ Usuario creado: {name} - {role}");
@@ -237,6 +237,84 @@ namespace TVTrackWeb.Services
                 }
 
                 Console.WriteLine("📁 CSV de recomendaciones exportado.");
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task<int> ContarUsuariosUltimoMes()
+        {
+            var session = _driver.AsyncSession();
+            try
+            {
+                var result = await session.RunAsync(@"
+            MATCH (u:User)
+            WHERE u.fechaCreacion >= datetime() - duration({days: 30})
+            RETURN count(u) AS total");
+
+                var record = await result.SingleAsync();
+                return record["total"].As<int>();
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task<List<Movie>> ObtenerPeliculasTop()
+        {
+            var lista = new List<Movie>();
+            var session = _driver.AsyncSession();
+            try
+            {
+                var result = await session.RunAsync(@"
+            MATCH (m:Movie)
+            WHERE exists(m.rating)
+            RETURN m.title AS title, m.genre AS genre, m.platform AS platform, m.rating AS rating
+            ORDER BY m.rating DESC
+            LIMIT 5");
+
+                await result.ForEachAsync(record =>
+                {
+                    lista.Add(new Movie(
+                        record["title"].As<string>(),
+                        record["genre"].As<string>(),
+                        record["platform"].As<string>(),
+                        record["rating"].As<double>()
+                    ));
+                });
+
+                return lista;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task<Dictionary<string, int>> ObtenerGeneroMasVisto()
+        {
+            var resultado = new Dictionary<string, int>();
+            var session = _driver.AsyncSession();
+
+            try
+            {
+                var result = await session.RunAsync(@"
+            MATCH (m:Movie)
+            WHERE m.viewStatus = 'Vista'
+            RETURN m.genre AS genre, count(*) AS cantidad
+            ORDER BY cantidad DESC
+            LIMIT 5");
+
+                await result.ForEachAsync(record =>
+                {
+                    resultado[record["genre"].As<string>()] = record["cantidad"].As<int>();
+                });
+
+                return resultado;
             }
             finally
             {

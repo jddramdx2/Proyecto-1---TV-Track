@@ -1,0 +1,58 @@
+﻿@page "/admin"
+@using Proyecto_1_TV_Track.Models
+@using System.IO
+@inject Neo4jService NeoService
+@inject SesionService Sesion
+
+<h3>📊 Panel del Administrador</h3>
+
+@if (!Sesion.Rol.Equals("admin"))
+{
+    <p>⚠ Acceso restringido. Solo administradores.</p>
+}
+else if (cargando)
+{
+    <p>Cargando datos...</p>
+}
+else
+{
+    <p><b>Usuarios registrados (último mes):</b> @usuariosRecientes</p>
+    <p><b>Películas más calificadas:</b></p>
+    <ul>
+        @foreach (var p in topPeliculas)
+        {
+            <li>@p.Title - ⭐ @p.Rating</li>
+        }
+    </ul>
+
+    <p><b>Géneros más populares:</b></p>
+    <ul>
+        @foreach (var g in generosPopulares)
+        {
+            <li>@g.Key (@g.Value vistas)</li>
+        }
+    </ul>
+
+    <button @onclick="ExportarRecomendadas">📁 Exportar Recomendadas (CSV)</button>
+}
+
+@code {
+    private int usuariosRecientes;
+    private List<Movie> topPeliculas;
+    private Dictionary<string, int> generosPopulares;
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        usuariosRecientes = await NeoService.ContarUsuariosUltimoMes();
+        topPeliculas = await NeoService.ObtenerPeliculasTop();
+        generosPopulares = await NeoService.ObtenerGeneroMasVisto();
+        cargando = false;
+    }
+
+    private async Task ExportarRecomendadas()
+    {
+        var ruta = Path.Combine(Environment.CurrentDirectory, "peliculas_recomendadas.csv");
+        await NeoService.ExportarPeliculasRecomendadasCSV(ruta);
+    }
+}
