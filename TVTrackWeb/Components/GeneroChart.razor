@@ -1,0 +1,31 @@
+﻿@using ChartJs.Blazor.ChartJS.BarChart
+@using ChartJs.Blazor.ChartJS.Common.Properties
+@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common.Enums
+@inject Neo4jService NeoService
+
+<BarChart Config="@config" />
+
+@code {
+    private BarConfig config;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await NeoService.ObtenerGeneroMasVisto();
+
+        config = new BarConfig
+        {
+            Options = new BarOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "🎥 Géneros más vistos"
+                }
+            }
+        };
+
+      
+}
+}

@@ -17,8 +17,9 @@ namespace TVTrackWeb.Services
 
         {
             // conexión con Neo4j - usuario y clave por defecto
-            _driver = GraphDatabase.Driver("bolt://localhost:5260", AuthTokens.Basic("neo4j", "1234"));
+            _driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "1234"));
         }
+
 
         // este método mete un usuario nuevo a la base
         public async Task AgregarUsuario(string name, string role)

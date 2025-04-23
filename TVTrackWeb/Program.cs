@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TVTrackWeb.Components;
 using TVTrackWeb.Services;
+using static System.Net.Mime.MediaTypeNames;
+using System.Threading.Tasks;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,7 @@ builder.Services.AddSingleton<Neo4jService>();
 
 var neo = new Neo4jService();
 await neo.ImportarPeliculasDesdeCSV("listado_100_peliculas.csv");
+
 
 // App
 var app = builder.Build();

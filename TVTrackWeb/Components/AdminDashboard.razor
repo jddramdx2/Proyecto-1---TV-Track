@@ -3,8 +3,10 @@
 @using System.IO
 @inject Neo4jService NeoService
 @inject SesionService Sesion
+@using TVTrackWeb.Components
 
 <h3>📊 Panel del Administrador</h3>
+
 
 @if (!Sesion.Rol.Equals("admin"))
 {
@@ -44,6 +46,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var lista = await NeoService.ObtenerUsuarios();
+        Console.WriteLine($"Usuarios en TVDB: {lista.Count}");
         usuariosRecientes = await NeoService.ContarUsuariosUltimoMes();
         topPeliculas = await NeoService.ObtenerPeliculasTop();
         generosPopulares = await NeoService.ObtenerGeneroMasVisto();
@@ -55,4 +59,7 @@ else
         var ruta = Path.Combine(Environment.CurrentDirectory, "peliculas_recomendadas.csv");
         await NeoService.ExportarPeliculasRecomendadasCSV(ruta);
     }
+   
+
 }
+
