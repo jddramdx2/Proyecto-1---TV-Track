@@ -1,0 +1,44 @@
+﻿@inject Neo4jService NeoService
+@inject SesionService Sesion
+
+<h3>Comentarios de @movieTitle</h3>
+
+@if (comentarios == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <ul>
+        @foreach (var c in comentarios)
+        {
+            <li><b>@c.Fecha.ToShortDateString()</b>: @c.Text</li>
+        }
+    </ul>
+}
+
+<textarea @bind="nuevoComentario" rows="3" cols="50"></textarea>
+<br />
+<button @onclick="GuardarComentario">Agregar Comentario</button>
+
+@code {
+    [Parameter] public string movieTitle { get; set; }
+
+    private List<Comment> comentarios;
+    private string nuevoComentario = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        comentarios = await NeoService.ObtenerComentarios(movieTitle);
+    }
+
+    private async Task GuardarComentario()
+    {
+        if (!string.IsNullOrWhiteSpace(nuevoComentario))
+        {
+            await NeoService.AgregarComentario(Sesion.Nombre, movieTitle, nuevoComentario);
+            nuevoComentario = "";
+            comentarios = await NeoService.ObtenerComentarios(movieTitle); // recargar
+        }
+    }
+}

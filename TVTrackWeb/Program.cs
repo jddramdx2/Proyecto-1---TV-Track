@@ -8,22 +8,21 @@ using TVTrackWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ⬇️ Registrar servicios de sesión y Neo4j
+// Servicios
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<SesionService>();
 builder.Services.AddSingleton<Neo4jService>();
+
 var neo = new Neo4jService();
 await neo.ImportarPeliculasDesdeCSV("listado_100_peliculas.csv");
 
-// ⬇️ Agregar componentes interactivos de Blazor Server
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
+// App
 var app = builder.Build();
 
-// ⬇️ Configuración para manejo de errores y archivos estáticos
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error");
 }
 else
 {
@@ -32,10 +31,8 @@ else
 
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAntiforgery();
 
-// ⬇️ Renderizar el componente raíz
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapBlazorHub(); // << ESTA LÍNEA ES CLAVE
+app.MapFallbackToPage("/_Host"); // Asegurate de tener una página _Host.cshtml
 
 app.Run();

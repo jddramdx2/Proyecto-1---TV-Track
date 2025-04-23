@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Neo4j.Driver;
 using Proyecto_1_TV_Track.Models;
 using TVTrackWeb.Models;
-using TVTrackWeb.Pages;
+
 
 namespace TVTrackWeb.Services
 {
@@ -172,8 +172,76 @@ namespace TVTrackWeb.Services
             }
         }
 
+        public async Task AgregarComentario(string username, string movieTitle, string texto)
+        {
+            var session = _driver.AsyncSession();
+            try
+            {
+                var query = @"
+            MATCH (u:User {name: $username}), (m:Movie {title: $movieTitle})
+            CREATE (c:Comment {text: $texto, fecha: datetime()})
+            CREATE (u)-[:COMMENTED]->(c)-[:ABOUT]->(m)";
+                await session.RunAsync(query, new { username, movieTitle, texto });
+                Console.WriteLine("✅ Comentario guardado.");
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task<List<Comment>> ObtenerComentarios(string movieTitle)
+        {
+            var lista = new List<Comment>();
+            var session = _driver.AsyncSession();
+            try
+            {
+                var result = await session.RunAsync(@"
+            MATCH (c:Comment)-[:ABOUT]->(:Movie {title: $movieTitle})
+            RETURN c.text AS text, c.fecha AS fecha
+            ORDER BY c.fecha DESC", new { movieTitle });
 
+                await result.ForEachAsync(record =>
+                {
+                    lista.Add(new Comment(record["text"].As<string>())
+                    {
+                        Fecha = record["fecha"].As<ZonedDateTime>().ToDateTimeOffset().DateTime
+                    });
+                });
 
+                return lista;
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
+        public async Task ExportarPeliculasRecomendadasCSV(string rutaArchivo)
+        {
+            var session = _driver.AsyncSession();
+            try
+            {
+                var result = await session.RunAsync(@"
+            MATCH (m:Movie)
+            WHERE m.isRecommended = true
+            RETURN m.title AS title, m.genre AS genre, m.platform AS platform, m.rating AS rating, m.viewStatus AS status");
 
+                using (var writer = new StreamWriter(rutaArchivo))
+                {
+                    await writer.WriteLineAsync("Título,Género,Plataforma,Rating,Estado");
+
+                    await result.ForEachAsync(record =>
+                    {
+                        var linea = $"{record["title"].As<string>()},{record["genre"].As<string>()},{record["platform"].As<string>()},{record["rating"]?.As<double>() ?? 0},{record["status"]?.As<string>() ?? "No vista"}";
+                        writer.WriteLine(linea);
+                    });
+                }
+
+                Console.WriteLine("📁 CSV de recomendaciones exportado.");
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+        }
     }
 }

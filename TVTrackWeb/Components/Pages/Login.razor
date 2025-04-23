@@ -6,12 +6,11 @@
 @inject SesionService Sesion
 @inject NavigationManager Navigation
 
-
 <PageTitle>Login</PageTitle>
 
 <h3>Iniciar Sesión</h3>
 
-<EditForm Model="login" OnValidSubmit="IniciarSesion" FormName="loginForm">
+<EditForm Model="login" OnValidSubmit="IniciarSesion">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -27,7 +26,7 @@
             <InputSelect @bind-Value="login.Rol" class="form-control">
                 <option value="">--Seleccione--</option>
                 <option value="Admin">Admin</option>
-                <option value="User">User</option>
+                <option value="Usuario">Usuario</option>
             </InputSelect>
             <ValidationMessage For="@(() => login.Rol)" />
         </div>
@@ -47,23 +46,14 @@
 
     private async Task IniciarSesion()
     {
-        Console.WriteLine($"🔍 Iniciando sesión: {login.Nombre} - {login.Rol}");
-
-        if (string.IsNullOrWhiteSpace(login.Nombre) || string.IsNullOrWhiteSpace(login.Rol))
-        {
-            mensaje = "Debe ingresar nombre y rol.";
-            return;
-        }
+        mensaje = "";
 
         try
         {
             var valido = await Neo4j.ValidarCredenciales(login.Nombre, login.Rol);
-            Console.WriteLine($"Resultado de validación: {valido}");
-
             if (valido)
             {
                 Sesion.IniciarSesion(login.Nombre, login.Rol);
-                mensaje = ""; // limpia mensaje si entra
                 Navigation.NavigateTo("/usuarios", forceLoad: true);
             }
             else
@@ -73,8 +63,8 @@
         }
         catch (Exception ex)
         {
-            mensaje = $"Error: {ex.Message}";
-            Console.WriteLine($"💥 Error de autenticación: {ex.Message}");
+            mensaje = $"Error al validar: {ex.Message}";
+            Console.WriteLine($"💥 Error: {ex.Message}");
         }
     }
 
