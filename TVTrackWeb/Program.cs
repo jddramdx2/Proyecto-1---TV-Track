@@ -19,10 +19,14 @@ builder.Services.AddSingleton<Neo4jService>();
 
 var neo = new Neo4jService();
 await neo.ImportarPeliculasDesdeCSV("listado_100_peliculas.csv");
-
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 // App
 var app = builder.Build();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAntiforgery();
 
 if (!app.Environment.IsDevelopment())
 {
@@ -36,7 +40,7 @@ else
 app.UseStaticFiles();
 app.UseRouting();
 
-app.MapBlazorHub(); // << ESTA LÍNEA ES CLAVE
-app.MapFallbackToPage("/_Host"); // Asegurate de tener una página _Host.cshtml
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 
 app.Run();
