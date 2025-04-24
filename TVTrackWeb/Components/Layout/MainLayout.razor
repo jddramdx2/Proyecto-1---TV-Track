@@ -1,24 +1,50 @@
-﻿@namespace TVTrackWeb.Components.Layout
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<div class="main-layout">
+    <header>
+        <h2>📺 TVTrack - Administrador</h2>
+        <nav>
+            <a href="/admin">🏠 Dashboard</a>
+            <a href="/reportes">📄 Reportes</a>
+            <a href="/genero-chart">📊 Gráfico</a>
+            <a href="/logout">🔒 Cerrar sesión</a>
+        </nav>
+    </header>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
+        @Body
     </main>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+<style>
+    .main-layout {
+        font-family: Arial, sans-serif;
+        padding: 0;
+        margin: 0;
+    }
+
+    header {
+        background-color: #222;
+        color: white;
+        padding: 15px;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+        nav a {
+            margin-right: 20px;
+            color: #00d8ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            nav a:hover {
+                text-decoration: underline;
+            }
+
+    main {
+        padding: 20px;
+    }
+</style>

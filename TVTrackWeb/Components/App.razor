@@ -1,10 +1,11 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
+﻿@using TVTrackWeb.Components.Layout
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(TVTrackWeb.Components.Layout.MainLayout)" />
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(TVTrackWeb.Components.Layout.MainLayout)">
-            <p>Lo sentimos, la página no fue encontrada.</p>
+        <LayoutView>
+            <p>Página no encontrada</p>
         </LayoutView>
     </NotFound>
 </Router>
